@@ -9,8 +9,20 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
+
+  <div class="starting-screen">
+    <div>
+      <header>
+        <h1>Coding Quiz Challenge</h1>
+      </header>
+    </div>
+    <div>
+      <p>Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by five seconds!</p>
+    </div>
+    <button id="start">Start Quiz</button>
+  </div>
   
-  <div class="quiz-container" id="quiz">
+  <div class="quiz-container hidden" id="quiz">
     <div class="quiz-header">
       <h2 class="question" id="question">Question Text</h2>
       <ul>

@@ -1,4 +1,6 @@
+var startBtn = document.getElementById('start');
 var quizContainer = document.getElementsByClassName('quiz-container');
+
 var questionData = document.getElementById('question');
 var answersData = document.querySelectorAll('.answer');
 console.log(answersData);
@@ -9,6 +11,15 @@ var d_text = document.getElementById('d_text')
 var submitBtn = document.getElementById('submit')
 let currentQuiz = 0
 let score = 0
+
+function startQuiz() {
+    startBtn.classList.toggle("hidden");
+    var quizBegin = document.getElementById('quiz');
+    quizBegin.classList.remove("hidden");
+}
+
+startBtn.addEventListener('click', startQuiz);
+
 
 
 var quizData = [
@@ -45,6 +56,8 @@ var quizData = [
       correct: "b",
   },
 ];
+
+
 
 loadQuiz()
 function loadQuiz() {
