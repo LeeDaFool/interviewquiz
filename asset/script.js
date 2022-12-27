@@ -18,6 +18,17 @@ function startQuiz() {
     quizBegin.classList.remove("hidden");
 }
 
+// Income Ticker Display (displaying time until next pay day)
+var timer = 60;
+
+window.setInterval(function(){
+ if (timer > 0)
+    timer--;
+      document.getElementById("timer").innerHTML = "Timer : " + timer + " seconds";
+if (timer <= 0)
+timer = 60;
+}, 1000);
+
 startBtn.addEventListener('click', startQuiz);
 
 
@@ -98,3 +109,4 @@ submitBtn.addEventListener('click', () => {
        }
     }
 })
+
