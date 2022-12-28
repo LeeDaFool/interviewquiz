@@ -17,7 +17,7 @@ ul {
   padding: 1rem;
 }
 
-#start {
+.start {
   display: block;
   margin: auto;
   /* margin-left: auto;

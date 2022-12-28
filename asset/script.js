@@ -11,23 +11,39 @@ var d_text = document.getElementById('d_text')
 var submitBtn = document.getElementById('submit')
 let currentQuiz = 0
 let score = 0
+var timer = 60;
+
+function wrongAnswer() {
+    const answer = getSelected()
+       if(!answer === quizData[currentQuiz].correct) {
+           timer--;
+       }
+}
 
 function startQuiz() {
     startBtn.classList.toggle("hidden");
+    startBtn.classList.remove("start");
     var quizBegin = document.getElementById('quiz');
     quizBegin.classList.remove("hidden");
-}
 
-// Income Ticker Display (displaying time until next pay day)
-var timer = 60;
+    
 
 window.setInterval(function(){
- if (timer > 0)
-    timer--;
-      document.getElementById("timer").innerHTML = "Timer : " + timer + " seconds";
-if (timer <= 0)
-timer = 60;
-}, 1000);
+    if (timer > 0) {
+     timer--;
+       document.getElementById("timer").innerHTML = "Timer : " + timer + " seconds";
+    }
+    if (timer <= 0) {
+        quiz.innerHTML = `
+           <h2>You answered ${score}/${quizData.length} questions correctly</h2>
+           <button onclick="location.reload()">Reload</button>
+           `
+    }
+    }, 1000);
+    wrongAnswer();
+}
+
+
 
 startBtn.addEventListener('click', startQuiz);
 
@@ -92,6 +108,8 @@ function getSelected() {
     })
     return answer
 }
+
+
 submitBtn.addEventListener('click', () => {
     const answer = getSelected()
     if(answer) {
