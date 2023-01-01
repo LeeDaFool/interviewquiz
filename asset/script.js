@@ -3,7 +3,6 @@ var quizContainer = document.getElementsByClassName('quiz-container');
 
 var questionData = document.getElementById('question');
 var answersData = document.querySelectorAll('.answer');
-console.log(answersData);
 var a_text = document.getElementById('a_text')
 var b_text = document.getElementById('b_text')
 var c_text = document.getElementById('c_text')
@@ -11,14 +10,8 @@ var d_text = document.getElementById('d_text')
 var submitBtn = document.getElementById('submit')
 let currentQuiz = 0
 let score = 0
-var timer = 60;
+let timer = 60;
 
-function wrongAnswer() {
-    const answer = getSelected()
-       if(!answer === quizData[currentQuiz].correct) {
-           timer--;
-       }
-}
 
 function startQuiz() {
     startBtn.classList.toggle("hidden");
@@ -35,12 +28,11 @@ window.setInterval(function(){
     }
     if (timer <= 0) {
         quiz.innerHTML = `
-           <h2>You answered ${score}/${quizData.length} questions correctly</h2>
+           <h2>Times Up! You answered ${score}/${quizData.length} questions correctly</h2>
            <button onclick="location.reload()">Reload</button>
            `
     }
     }, 1000);
-    wrongAnswer();
 }
 
 
@@ -109,22 +101,42 @@ function getSelected() {
     return answer
 }
 
+function inputHighscore() {
+    const getTimer = document.getElementById("timer");
+    
+    quiz.innerHTML = `<h2>You answered ${score}/${quizData.length} questions correctly. Time took: ${timer}</h2>
+    <form>
+    <label for="initial">Initial: </label>
+  <input type="text" id="getInital" name="initial"><br><br>
+  <input class="SubmitIn" type="submit" value="Submit">
+  </form>
+    <button onclick="location.reload()">Reload</button>
+    `
+    timer = clearTimeout(timer);
+    getTimer.classList.toggle("hidden");
+    
+}
 
 submitBtn.addEventListener('click', () => {
     const answer = getSelected()
     if(answer) {
        if(answer === quizData[currentQuiz].correct) {
-           score++
+           score++;
+       } else {
+        timer -= 5;
        }
-       currentQuiz++
+       currentQuiz++;
        if(currentQuiz < quizData.length) {
            loadQuiz()
        } else {
-           quiz.innerHTML = `
-           <h2>You answered ${score}/${quizData.length} questions correctly</h2>
-           <button onclick="location.reload()">Reload</button>
-           `
-       }
+        //    quiz.innerHTML = `
+        //    <h2>You answered ${score}/${quizData.length} questions correctly</h2>
+        //    <button onclick="location.reload()">Reload</button>
+        //    `;
+        inputHighscore();
+        
+
+    }
     }
 })
 
