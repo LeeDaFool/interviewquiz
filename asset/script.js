@@ -21,7 +21,7 @@ function startQuiz() {
 
     
 
-window.setInterval(function(){
+    window.setInterval(function(){
     if (timer > 0) {
      timer--;
        document.getElementById("timer").innerHTML = "Timer : " + timer + " seconds";
@@ -47,7 +47,7 @@ var quizData = [
       a: "Java",
       b: "C",
       c: "Python",
-      d: "javascript",
+      d: "Javascript",
       correct: "d",
   },
   {
@@ -103,17 +103,30 @@ function getSelected() {
 
 function inputHighscore() {
     const getTimer = document.getElementById("timer");
+    var trackScore = timer;
     
     quiz.innerHTML = `<h2>You answered ${score}/${quizData.length} questions correctly. Time took: ${timer}</h2>
     <form>
     <label for="initial">Initial: </label>
-  <input type="text" id="getInital" name="initial"><br><br>
-  <input class="SubmitIn" type="submit" value="Submit">
+  <input type="text" id="getInital" name="initial">
+  <input id="submitIn" type="submit" value="OK">
   </form>
-    <button onclick="location.reload()">Reload</button>
+    <button onclick="window.location.reload()">Reload</button>
     `
+    
+    const submitIn = document.getElementById("submitIn");
+    submitIn.addEventListener("click", (e) => {
+        e.preventDefault();
+        var inital = document.getElementById("getInital").value;
+        
+
+        localStorage.setItem("inital", inital);
+        localStorage.setItem("score", trackScore);
+    })
+
     timer = clearTimeout(timer);
     getTimer.classList.toggle("hidden");
+
     
 }
 
@@ -129,10 +142,6 @@ submitBtn.addEventListener('click', () => {
        if(currentQuiz < quizData.length) {
            loadQuiz()
        } else {
-        //    quiz.innerHTML = `
-        //    <h2>You answered ${score}/${quizData.length} questions correctly</h2>
-        //    <button onclick="location.reload()">Reload</button>
-        //    `;
         inputHighscore();
         
 
