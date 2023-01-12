@@ -114,21 +114,35 @@ function inputHighscore() {
     <button onclick="window.location.reload()">Reload</button>
     `
     
+    
     const submitIn = document.getElementById("submitIn");
     submitIn.addEventListener("click", (e) => {
         e.preventDefault();
         var inital = document.getElementById("getInital").value;
-        
-
         localStorage.setItem("inital", inital);
         localStorage.setItem("score", trackScore);
+
+        let theIntial = localStorage.getItem("inital").toUpperCase();
+        let theScore = localStorage.getItem("score");
+
+        let firstScore = document.createElement("p");
+        let secondScore = document.createElement("li");
+        let thirdScore = document.createElement("li");
+        
+        console.log(theIntial);
+        // firstScore.innerHTML = `${theIntial} score: ${theScore}`;
+        quiz.innerHTML = `<h2>${theIntial} score: ${theScore}</h2>
+        <button onclick="location.reload()">Reload</button>`
+        
+
+
     })
 
     timer = clearTimeout(timer);
     getTimer.classList.toggle("hidden");
 
     
-}
+};
 
 submitBtn.addEventListener('click', () => {
     const answer = getSelected()
@@ -147,5 +161,10 @@ submitBtn.addEventListener('click', () => {
 
     }
     }
-})
+});
 
+// highscore = () => {
+//     let inital = localStorage.getItem("inital");
+//     let score = localStorage.getItem("score");
+//     console.log(score);
+// }
