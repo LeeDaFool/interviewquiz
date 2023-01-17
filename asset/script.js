@@ -1,18 +1,20 @@
+// Btn for start quiz
 var startBtn = document.getElementById('start');
+// Quiz info
 var quizContainer = document.getElementsByClassName('quiz-container');
-
 var questionData = document.getElementById('question');
 var answersData = document.querySelectorAll('.answer');
 var a_text = document.getElementById('a_text')
 var b_text = document.getElementById('b_text')
 var c_text = document.getElementById('c_text')
 var d_text = document.getElementById('d_text')
-var submitBtn = document.getElementById('submit')
 let currentQuiz = 0
 let score = 0
 let timer = 60;
+// Submit btn
+var submitBtn = document.getElementById('submit')
 
-
+// Start quiz
 function startQuiz() {
     startBtn.classList.toggle("hidden");
     startBtn.classList.remove("start");
@@ -36,11 +38,11 @@ function startQuiz() {
 }
 
 
-
+// Eventlisten for the startQuiz function
 startBtn.addEventListener('click', startQuiz);
 
 
-
+// Quiz data
 var quizData = [
   {
       question: "Which language runs in a web browser?",
@@ -77,7 +79,7 @@ var quizData = [
 ];
 
 
-
+// Gathering and displaying the quiz data
 loadQuiz()
 function loadQuiz() {
     deselectAnswers()
@@ -101,10 +103,17 @@ function getSelected() {
     return answer
 }
 
+function viewHighscore() {
+
+}
+let recentHighscore = [] || JSON.parse(localStorage.getItem("recentHighscore"));
+
+
+//Quiz ending and the User input intial for highscore
 function inputHighscore() {
     const getTimer = document.getElementById("timer");
     var trackScore = timer;
-    
+    // The score of the user after the quiz
     quiz.innerHTML = `<h2>You answered ${score}/${quizData.length} questions correctly. Time took: ${timer}</h2>
     <form>
     <label for="initial">Initial: </label>
@@ -119,31 +128,32 @@ function inputHighscore() {
     submitIn.addEventListener("click", (e) => {
         e.preventDefault();
         var inital = document.getElementById("getInital").value;
-        localStorage.setItem("inital", inital);
-        localStorage.setItem("score", trackScore);
+        let quizHighscore = {
+            intials: inital,
+            scores: trackScore
+        };
 
-        let theIntial = localStorage.getItem("inital").toUpperCase();
-        let theScore = localStorage.getItem("score");
+        if(localStorage.getItem("recentHighscore") === null) {
+            recentHighscore.push(quizHighscore);
+            localStorage.setItem("recentHighscore",JSON.stringify(recentHighscore));
+        } else {
+            localStorage.getItem("recentHighscore")
+            recentHighscore.push(quizHighscore);
+            console.log(quizHighscore);
+        }
 
-        let firstScore = document.createElement("p");
-        let secondScore = document.createElement("li");
-        let thirdScore = document.createElement("li");
         
-        console.log(theIntial);
-        // firstScore.innerHTML = `${theIntial} score: ${theScore}`;
-        quiz.innerHTML = `<h2>${theIntial} score: ${theScore}</h2>
-        <button onclick="location.reload()">Reload</button>`
+        scorelist = console.log(JSON.parse(localStorage.getItem("recentHighscore")));
         
 
 
-    })
 
+})
     timer = clearTimeout(timer);
-    getTimer.classList.toggle("hidden");
-
-    
+    getTimer.classList.toggle("hidden"); 
 };
 
+// Penalize user by 5 sec for wrong answer
 submitBtn.addEventListener('click', () => {
     const answer = getSelected()
     if(answer) {
@@ -162,6 +172,8 @@ submitBtn.addEventListener('click', () => {
     }
     }
 });
+
+console.log(recentHighscore);
 
 // highscore = () => {
 //     let inital = localStorage.getItem("inital");
