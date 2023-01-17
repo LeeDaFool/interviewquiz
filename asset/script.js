@@ -16,6 +16,7 @@ var submitBtn = document.getElementById('submit')
 
 // Start quiz
 function startQuiz() {
+    highscoreBTN.classList.toggle("hidden");
     startBtn.classList.toggle("hidden");
     startBtn.classList.remove("start");
     var quizBegin = document.getElementById('quiz');
@@ -106,7 +107,30 @@ function getSelected() {
 function viewHighscore() {
 
 }
-let recentHighscore = [] || JSON.parse(localStorage.getItem("recentHighscore"));
+let recentHighscore = JSON.parse(localStorage.getItem("recentHighscore")) || [];
+recentHighscore.sort((a, b) => b.scores - a.scores);
+recentHighscore.splice(5);
+let highscoreBTN = document.createElement('button');
+highscoreBTN.innerHTML = "Highscore";
+document.body.appendChild(highscoreBTN);
+
+
+highscoreBTN.addEventListener("click", () => {
+    
+    startBtn.classList.toggle("hidden");
+    startBtn.classList.remove("start");
+    document.getElementById("timer").classList.add("hidden");
+    highscoreBTN.classList.add("hidden");
+    quiz.classList.remove("hidden");
+
+    for(let i = 0; i < recentHighscore.length; i++) {
+    quiz.innerHTML = `<h2> 1) ${recentHighscore[0].intials.toUpperCase()} with a highscore of ${recentHighscore[0].scores} <h2>
+    <br>
+    <h2> 2) ${recentHighscore[1].intials.toUpperCase()} with a highscore of ${recentHighscore[1].scores} <h2>
+    <br>
+    <button onclick="window.location.reload()">Back</button>` ;
+    }
+})
 
 
 //Quiz ending and the User input intial for highscore
@@ -132,15 +156,12 @@ function inputHighscore() {
             intials: inital,
             scores: trackScore
         };
+        recentHighscore.push(quizHighscore);
+        localStorage.setItem("recentHighscore",JSON.stringify(recentHighscore));
+       
 
-        if(localStorage.getItem("recentHighscore") === null) {
-            recentHighscore.push(quizHighscore);
-            localStorage.setItem("recentHighscore",JSON.stringify(recentHighscore));
-        } else {
-            localStorage.getItem("recentHighscore")
-            recentHighscore.push(quizHighscore);
-            console.log(quizHighscore);
-        }
+
+       
 
         
         scorelist = console.log(JSON.parse(localStorage.getItem("recentHighscore")));
