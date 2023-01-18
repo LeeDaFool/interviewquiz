@@ -123,17 +123,22 @@ highscoreBTN.addEventListener("click", () => {
     highscoreBTN.classList.add("hidden");
     quiz.classList.remove("hidden");
 
-    for(let i = 0; i < recentHighscore.length; i++) {
-    quiz.innerHTML = `<h2> 1) ${recentHighscore[0].intials.toUpperCase()} with a highscore of ${recentHighscore[0].scores} <h2>
-    <br>
-    <h2> 2) ${recentHighscore[1].intials.toUpperCase()} with a highscore of ${recentHighscore[1].scores} <h2>
-    <br>
-    <button onclick="window.location.reload()">Back</button>` ;
+    quiz.innerHTML = recentHighscore
+    .map(scores => {
+        return `<h2> ${scores.initials.toUpperCase()} with a highscore of ${scores.scores} <h2>`
+    }).join("");
+
+    let backDiv = document.createElement('button');
+    backDiv.innerHTML = "Back";
+    backDiv.addEventListener("click", () => {
+        window.location.reload();
+    });
+    document.body.append(backDiv);
     }
-})
+)
 
 
-//Quiz ending and the User input intial for highscore
+//Quiz ending and the User input initial for highscore
 function inputHighscore() {
     const getTimer = document.getElementById("timer");
     var trackScore = timer;
@@ -141,34 +146,24 @@ function inputHighscore() {
     quiz.innerHTML = `<h2>You answered ${score}/${quizData.length} questions correctly. Time took: ${timer}</h2>
     <form>
     <label for="initial">Initial: </label>
-  <input type="text" id="getInital" name="initial">
+  <input type="text" id="getInitial" name="initial">
   <input id="submitIn" type="submit" value="OK">
   </form>
     <button onclick="window.location.reload()">Reload</button>
     `
     
-    
     const submitIn = document.getElementById("submitIn");
     submitIn.addEventListener("click", (e) => {
         e.preventDefault();
-        var inital = document.getElementById("getInital").value;
+        var initial = document.getElementById("getInitial").value;
+        
         let quizHighscore = {
-            intials: inital,
+            initials: initial,
             scores: trackScore
         };
         recentHighscore.push(quizHighscore);
         localStorage.setItem("recentHighscore",JSON.stringify(recentHighscore));
-       
-
-
-       
-
-        
-        scorelist = console.log(JSON.parse(localStorage.getItem("recentHighscore")));
-        
-
-
-
+        alert("Score inputed");
 })
     timer = clearTimeout(timer);
     getTimer.classList.toggle("hidden"); 
@@ -197,7 +192,7 @@ submitBtn.addEventListener('click', () => {
 console.log(recentHighscore);
 
 // highscore = () => {
-//     let inital = localStorage.getItem("inital");
+//     let initial = localStorage.getItem("initial");
 //     let score = localStorage.getItem("score");
 //     console.log(score);
 // }
